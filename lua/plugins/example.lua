@@ -55,7 +55,59 @@ return {
         winblend = 0,
       },
     },
-  }  
+  },
+
+  {
+    "tpope/vim-fugitive",
+    event = "BufReadPost",
+    config = function()
+      vim.keymap.set("n", "<leader>gs", ":Git<CR>", { desc = "Git Status" })
+      vim.keymap.set("n", "<leader>gc", ":Git commit<CR>", { desc = "Git Commit" })
+      vim.keymap.set("n", "<leader>gp", ":Git push<CR>", { desc = "Git Push" })
+      vim.keymap.set("n", "<leader>gl", ":Git pull<CR>", { desc = "Git Pull" })
+      vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { desc = "Git Blame" })
+      vim.keymap.set("n", "<leader>gd", ":Gdiffsplit<CR>", { desc = "Git Diff" })
+      vim.keymap.set("n", "<leader>gr", ":Gread<CR>", { desc = "Git Read (Checkout)" })
+      vim.keymap.set("n", "<leader>gw", ":Gwrite<CR>", { desc = "Git Write (Add)" })
+    end,
+  },
+
+  {
+    "ibhagwan/fzf-lua",
+    opts = function(_)
+      local fzf_lua = require("fzf-lua")
+      
+      local ignore_folders = { "node_modules", ".git", "dist", "build" }
+      
+      local fd_ignore = ""
+      local rg_ignore = ""
+      for _, folder in ipairs(ignore_folders) do
+        fd_ignore = fd_ignore .. string.format(" --exclude %s", folder)
+        rg_ignore = rg_ignore .. string.format(" --glob '!%s'", folder)
+      end
+      
+      vim.keymap.set("n", "<leader><space>", function()
+        fzf_lua.files({ 
+          cwd = vim.fn.getcwd(),
+          fd_opts = "--color=never --type f --hidden --follow" .. fd_ignore
+        })
+      end, { desc = "Find Files in CWD" })
+
+      vim.keymap.set("n", "<leader>sd", function()
+        fzf_lua.files({ 
+          cwd = vim.fn.getcwd(),
+          fd_opts = "--color=never --type d --hidden --follow" .. fd_ignore
+        })
+      end, { desc = "Search Directories in CWD" })
+  
+      vim.keymap.set("n", "<leader>sg", function()
+        fzf_lua.live_grep({ 
+          cwd = vim.fn.getcwd(),
+          rg_opts = "--color=always --smart-case --line-number --column" .. rg_ignore
+        })
+      end, { desc = "Live Grep in CWD" })
+    end,
+  },
 
   -- add pyright to lspconfig
   {
