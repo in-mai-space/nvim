@@ -9,3 +9,10 @@ vim.opt.softtabstop=4
 vim.opt.shiftwidth=4
 vim.opt.expandtab = true
 vim.opt.smartindent=true
+
+vim.cmd([[
+  augroup auto_cd
+    autocmd!
+    autocmd BufEnter * silent! lcd %:p:h
+  augroup END
+]])

@@ -12,14 +12,6 @@ return {
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
 
-  -- Configure LazyVim to load gruvbox
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "gruvbox",
-    },
-  },
-
   -- change trouble config
   {
     "folke/trouble.nvim",
@@ -44,15 +36,17 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     keys = {
-      -- add a keymap to browse plugin files
-      -- stylua: ignore
       {
         "<leader>fp",
-        function() require("telescope.builtin").find_files({ cwd = require("lazy.core.config").options.root }) end,
-        desc = "Find Plugin File",
-      },
+        function()
+          require("telescope.builtin").find_files({
+            cwd = vim.fn.getcwd(),
+            no_ignore = true,
+          })
+        end,
+        desc = "Find Files in Current Directory",
+      }
     },
-    -- change some options
     opts = {
       defaults = {
         layout_strategy = "horizontal",
@@ -61,7 +55,7 @@ return {
         winblend = 0,
       },
     },
-  },
+  }  
 
   -- add pyright to lspconfig
   {
