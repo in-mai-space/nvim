@@ -17,6 +17,7 @@ map("n", "<leader>fn", "<cmd>enew<CR>", opts)                      -- New empty 
 map("n", "<leader>bd", "<cmd>bdelete<CR>", opts)                   -- Close buffer
 map("n", "<leader>bn", "<cmd>bnext<CR>", opts)                     -- Next buffer
 map("n", "<leader>bp", "<cmd>bprevious<CR>", opts)                 -- Previous buffer
+map("n", "<leader>e", ":Neotree toggle<CR>", opts)
 
 -- ========================
 -- Window & Tab Management

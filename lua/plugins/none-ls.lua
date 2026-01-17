@@ -3,31 +3,39 @@ return {
     "nvimtools/none-ls.nvim",
     dependencies = "mason-org/mason.nvim",
     config = function()
-      local none_ls = require("none-ls")
-      none_ls.setup({
+      local null_ls = require("none-ls")
+
+      null_ls.setup({
         sources = {
           -- Python
-          none_ls.builtins.formatting.black,
-          none_ls.builtins.formatting.isort,
-          none_ls.builtins.diagnostics.flake8,
+          null_ls.builtins.formatting.black,
+          null_ls.builtins.formatting.isort,
+          null_ls.builtins.diagnostics.flake8,
 
           -- TypeScript / JavaScript
-          none_ls.builtins.formatting.prettier,
-          none_ls.builtins.diagnostics.eslint_d,
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.diagnostics.eslint_d,
 
-          -- Go
-          none_ls.builtins.formatting.gofmt,
-          none_ls.builtins.diagnostics.golangci_lint,
+          -- Go using revive
+          null_ls.builtins.formatting.gofmt,
+          null_ls.builtins.diagnostics.revive,
 
           -- Shell
-          none_ls.builtins.formatting.shfmt,
-          none_ls.builtins.diagnostics.shellcheck,
+          null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.diagnostics.shellcheck,
 
           -- Lua
-          none_ls.builtins.formatting.stylua,
-
-          none_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.stylua,
         },
+        on_attach = function(client, bufnr)
+          if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_create_autocmd("BufWritePre", {
+              group = vim.api.nvim_create_augroup("FormatOnSave", { clear = true }),
+              buffer = bufnr,
+              callback = function() vim.lsp.buf.format({ async = false }) end,
+            })
+          end
+        end,
       })
     end,
   },

@@ -8,7 +8,7 @@ return {
         python = {"flake8"},
         javascript = {"eslint_d"},
         typescript = {"eslint_d"},
-        go = {"golangci-lint"},
+        go = {"revive"},
         sh = {"shellcheck"},
         lua = {"luacheck"},
         markdown = {"markdownlint"},
