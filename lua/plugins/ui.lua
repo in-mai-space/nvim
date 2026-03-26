@@ -15,6 +15,4 @@ return {
   { "numToStr/Comment.nvim", event = "VeryLazy", opts = {} },
   -- leap
   { "ggandor/leap.nvim", keys = { "s", "S" }, config = function() require("leap").add_default_mappings() end },
-  -- mini-starter
-  { import = "lazyvim.plugins.extras.ui.mini-starter" },
 }
